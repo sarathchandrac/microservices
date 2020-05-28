@@ -12,3 +12,9 @@ buildNumber.properties
 /.metadata/
 **/.settings
 **/.classpath
+**/.factorypath
+**/.project
+# IDE files
+.idea
+**/.idea
+**/*.iml
