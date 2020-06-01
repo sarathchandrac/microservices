@@ -1,23 +1,31 @@
 package com.training.mobile.controller;
 
-import com.training.mobile.dto.GetAllMobileRequest;
-import com.training.mobile.dto.SaveMobileRequest;
-import com.training.mobile.exception.ErrorDetails;
-import com.training.mobile.exception.MobileNotFoundException;
-import com.training.mobile.model.Mobile;
-import com.training.mobile.service.MobileDaoService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import com.training.mobile.dto.GetAllMobileRequest;
+import com.training.mobile.dto.MobileDto;
+import com.training.mobile.dto.Response;
+import com.training.mobile.dto.SaveMobileRequest;
+import com.training.mobile.service.MobileDaoService;
+
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("mobiles")
@@ -27,22 +35,22 @@ public class MobileController {
 
     @GetMapping
     @ApiResponse(description = "This method returns all mobile details ....")
-    public List<Mobile> getAllMobiles(
+    public Response getAllMobiles(
     		GetAllMobileRequest inputRequest
     		){
-        return mobileDaoService.getAllMobiles(inputRequest);
+        return Response.builder().response( mobileDaoService.getAllMobiles(inputRequest)).build();
     }
 
 
     
-    @GetMapping( value = "/{mobile-id}", produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    })
-    public ResponseEntity<Mobile> getMobile(@PathVariable("mobile-id") int mobileId ){
+    @GetMapping( "{mobile-id}" )
+    public Response getMobile(@PathVariable("mobile-id") @Valid @Min(value=1, message="{Min.SaveMobileRequest.id}" ) int mobileId ){
+    	return Response.builder().response( mobileDaoService.getMobileById(mobileId)).build();
+    	/*
         return  (mobileId <= 0)
                 ? ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
                 : ResponseEntity.ok().body(mobileDaoService.getMobileById(mobileId));
+        */
     }
 
     @PostMapping(consumes = {
@@ -50,9 +58,11 @@ public class MobileController {
             MediaType.APPLICATION_XML_VALUE
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveMobile(@RequestBody @Valid SaveMobileRequest saveMobileRequest){
+    public Response saveMobile(@RequestBody @Valid SaveMobileRequest saveMobileRequest){
     	System.out.println("Mobile :" + saveMobileRequest);
         mobileDaoService.saveMobile(saveMobileRequest);
+        return Response.builder().response( "Mobile Saved successfully :: " + saveMobileRequest).build();
+        
 //        httpEntity.getHeaders().forEach((k,v) -> {
 //            System.out.println("Key :" + k.toString());
 //            System.out.println("Value :" + v.toString());
@@ -61,9 +71,8 @@ public class MobileController {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateMobile(@RequestBody Mobile mobile){
-        mobileDaoService.updateMobile(mobile);
+    public Response updateMobile(@RequestBody MobileDto mobile){
+        return Response.builder().response(mobileDaoService.updateMobile(mobile)).build(); 
     }
 
     @DeleteMapping("/{mobileId}")

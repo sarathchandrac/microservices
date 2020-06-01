@@ -1,4 +1,4 @@
-package com.training.mobile.Dao;
+package com.training.mobile.repository;
 
 import java.util.List;
 

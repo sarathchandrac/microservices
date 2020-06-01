@@ -1,5 +1,6 @@
 package com.training.mobile.exception;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,21 +10,24 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.training.mobile.dto.Response;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
     @ExceptionHandler(value = MobileNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleMobileNotFoundException(MobileNotFoundException mfe){
+    public ResponseEntity<Response> handleMobileNotFoundException(MobileNotFoundException mfe){
         ErrorDetails error = ErrorDetails
         						.builder()
         						.errorCode(mfe.getErrorCode())
         						.errorMessage(mfe.getMessage())
         						.build();
-        return ResponseEntity.badRequest().body(error);
+        Response response = Response.builder().errors(Arrays.asList(error)).build();
+        return ResponseEntity.badRequest().body(response);
     }
     
     @ExceptionHandler(value=MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErrorDetails>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+    public ResponseEntity<Response> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
     	List<ErrorDetails> errorDetails = ex.getBindingResult().getAllErrors()
 													    		.stream()
 													    		.map(error -> ErrorDetails
@@ -32,16 +36,18 @@ public class GlobalExceptionHandler {
 													    				.errorMessage(error.getDefaultMessage())
 													    				.build())
 													    				.collect(Collectors.toList());
-    	return ResponseEntity.badRequest().body(errorDetails);
+    	 Response response = Response.builder().errors(errorDetails).build();
+    	 return ResponseEntity.badRequest().body(response);
     }
-/*
+
     @ExceptionHandler(value = Throwable.class)
-    public ResponseEntity<ErrorDetails> handleThrowable(Throwable throwable){
-        ErrorDetails error = new ErrorDetails();
-        error.setErrorCode(1009);
-        error.setErrorMessage(throwable.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    public ResponseEntity<Response> handleThrowable(Throwable throwable){
+        ErrorDetails error = ErrorDetails.builder()
+        						.errorCode(1009)
+        						.errorMessage(throwable.getMessage()).build();
+        Response response = Response.builder().errors(Arrays.asList(error)).build();
+   	 	return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-*/
+
 
 }

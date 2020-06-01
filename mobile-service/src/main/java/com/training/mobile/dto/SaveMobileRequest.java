@@ -10,8 +10,8 @@ import lombok.Data;
 public class SaveMobileRequest {
 	@NotBlank(message="{NotBlank.SaveMobileRequest.name}")
 	private String name;
-	@Min(value=1 )
-	@Max(value=2000000)
+	@Min(value=1, message="{Min.SaveMobileRequest.price}" )
+	@Max(value=2000000, message="{Max.SaveMobileRequest.price}")
 	private int price;
 	@NotBlank(message="{NotBlank.SaveMobileRequest.status}")
 	private String status;
