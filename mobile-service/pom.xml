@@ -11,15 +11,13 @@
 
 
 	<parent>
-		<groupId>com.spring.services</groupId>
-		<artifactId>parent-service</artifactId>
+		<groupId>com.spring.cs</groupId>
+		<artifactId>cs-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<dependencies>
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -35,10 +33,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.spring.common</groupId>
-			<artifactId>mobile-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 	</dependencies>
 </project>
