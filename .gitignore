@@ -16,5 +16,10 @@ buildNumber.properties
 **/.project
 # IDE files
 .idea
+.project
 **/.idea
+**/.mvn
 **/*.iml
+**/*.project
+**/*.cmd
+**/mvnw
