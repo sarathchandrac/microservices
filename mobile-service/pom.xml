@@ -5,7 +5,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.spring.mobile</groupId>
 	<artifactId>mobile-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>mobile-service</name>
 	<description>New Mobile Service Micro service</description>
 
@@ -31,6 +30,12 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.spring.cs</groupId>
+  		  <artifactId>mobile-common</artifactId>
+  		  <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 

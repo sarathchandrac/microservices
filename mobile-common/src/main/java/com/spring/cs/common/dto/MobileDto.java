@@ -1,9 +1,8 @@
-package com.training.mobile.dto;
+package com.spring.cs.common.dto;
 
 import java.time.LocalDate;
 
-import com.training.mobile.model.LOB;
-import com.training.mobile.model.Status;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
