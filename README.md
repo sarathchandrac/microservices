@@ -6,4 +6,5 @@
 4. Mobile-Accessory: WebFlux + Reactive Data JPA + JUNIT [Mongo DB]
 5. Client1: Reactive + WebClient +  JUNIT
 6. Client2: React + Kotlin
-Dockerization for the Micro Services
+7.Dockerization for the Micro Services
+8.Add CI-CD
